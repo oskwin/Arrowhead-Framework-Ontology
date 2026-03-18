@@ -18,6 +18,16 @@ Arrowhead-Framework-Ontology/
 |   ├── ontology/
 |   |   └── afo.ttl 
 ```
+
+## About
+
+- Developed using the mbaigo implementation of the Arrowhead framework:
+```plaintext
+https://github.com/sdoque/systems
+```
+
+- Knowledge graph generation requires the KGrapher system. 
+
 ## Presented In
 - https://doi.org/10.5281/zenodo.18731224
 
