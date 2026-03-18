@@ -1,0 +1,389 @@
+@prefix : <http://www.synecdoque.com/2025/afo#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.synecdoque.com/2025/afo#> .
+
+<http://www.synecdoque.com/2025/afo> rdf:type owl:Ontology ;
+                                      owl:versionIRI <http://www.synecdoque.com/2025/afo/1.1.0> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.synecdoque.com/2025/afo#communicatesOver
+:communicatesOver rdf:type owl:ObjectProperty ;
+                  owl:inverseOf :endpointOfHusk ;
+                  rdfs:domain :Husk ;
+                  rdfs:range :Endpoint .
+
+
+###  http://www.synecdoque.com/2025/afo#consumes
+:consumes rdf:type owl:ObjectProperty ;
+          rdfs:domain :ConsumedService ;
+          rdfs:range :Service .
+
+
+###  http://www.synecdoque.com/2025/afo#consumesService
+:consumesService rdf:type owl:ObjectProperty ;
+                 owl:inverseOf :serviceConsumedBy ;
+                 rdfs:domain :UnitAsset ;
+                 rdfs:range :ConsumedService .
+
+
+###  http://www.synecdoque.com/2025/afo#consumingFromSystem
+:consumingFromSystem rdf:type owl:ObjectProperty ;
+                     owl:inverseOf :providingToSystem ;
+                     owl:propertyChainAxiom ( :hasUnitAsset
+                                              :consumesService
+                                              :consumes
+                                              :serviceProvidedBy
+                                              :isUnitAssetOf
+                                            ) .
+
+
+###  http://www.synecdoque.com/2025/afo#contains
+:contains rdf:type owl:ObjectProperty ;
+          owl:inverseOf :isContainedIn ;
+          rdfs:domain :LocalCloud ;
+          rdfs:range :System .
+
+
+###  http://www.synecdoque.com/2025/afo#endpointOfHusk
+:endpointOfHusk rdf:type owl:ObjectProperty .
+
+
+###  http://www.synecdoque.com/2025/afo#hasDeveloper
+:hasDeveloper rdf:type owl:ObjectProperty .
+
+
+###  http://www.synecdoque.com/2025/afo#hasHusk
+:hasHusk rdf:type owl:ObjectProperty ;
+         owl:inverseOf :isHuskOf ;
+         rdfs:domain :System ;
+         rdfs:range :Husk .
+
+
+###  http://www.synecdoque.com/2025/afo#hasServer
+:hasServer rdf:type owl:ObjectProperty ;
+           owl:inverseOf :isServerOf ;
+           rdfs:domain :Husk ;
+           rdfs:range :Server .
+
+
+###  http://www.synecdoque.com/2025/afo#hasUnitAsset
+:hasUnitAsset rdf:type owl:ObjectProperty ;
+              owl:inverseOf :isUnitAssetOf ;
+              rdfs:domain :System ;
+              rdfs:range :UnitAsset .
+
+
+###  http://www.synecdoque.com/2025/afo#hostingEndpoint
+:hostingEndpoint rdf:type owl:ObjectProperty ;
+                 owl:inverseOf :onHost .
+
+
+###  http://www.synecdoque.com/2025/afo#isContainedIn
+:isContainedIn rdf:type owl:ObjectProperty .
+
+
+###  http://www.synecdoque.com/2025/afo#isHostOf
+:isHostOf rdf:type owl:ObjectProperty ;
+          owl:inverseOf :runsOnHost .
+
+
+###  http://www.synecdoque.com/2025/afo#isHuskOf
+:isHuskOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.synecdoque.com/2025/afo#isServerOf
+:isServerOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.synecdoque.com/2025/afo#isUnitAssetOf
+:isUnitAssetOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.synecdoque.com/2025/afo#onHost
+:onHost rdf:type owl:ObjectProperty ;
+        rdfs:domain :Endpoint ;
+        rdfs:range :Host .
+
+
+###  http://www.synecdoque.com/2025/afo#providesService
+:providesService rdf:type owl:ObjectProperty ;
+                 owl:inverseOf :serviceProvidedBy ;
+                 rdfs:domain :UnitAsset ;
+                 rdfs:range :Service .
+
+
+###  http://www.synecdoque.com/2025/afo#providingToSystem
+:providingToSystem rdf:type owl:ObjectProperty .
+
+
+###  http://www.synecdoque.com/2025/afo#runsOnHost
+:runsOnHost rdf:type owl:ObjectProperty ;
+            rdfs:domain :Husk ;
+            rdfs:range :Host .
+
+
+###  http://www.synecdoque.com/2025/afo#serviceConsumedBy
+:serviceConsumedBy rdf:type owl:ObjectProperty .
+
+
+###  http://www.synecdoque.com/2025/afo#serviceProvidedBy
+:serviceProvidedBy rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.synecdoque.com/2025/afo#hasIPaddress
+:hasIPaddress rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Host ;
+              rdfs:range xsd:string .
+
+
+###  http://www.synecdoque.com/2025/afo#hasName
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:range xsd:string .
+
+
+###  http://www.synecdoque.com/2025/afo#hasRegistrationPeriod
+:hasRegistrationPeriod rdf:type owl:DatatypeProperty ;
+                       rdfs:domain :ProvidedService ;
+                       rdfs:range xsd:nonNegativeInteger .
+
+
+###  http://www.synecdoque.com/2025/afo#hasServiceDefinition
+:hasServiceDefinition rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :ProvidedService ;
+                      rdfs:range xsd:string .
+
+
+###  http://www.synecdoque.com/2025/afo#hasUrl
+:hasUrl rdf:type owl:DatatypeProperty ;
+        rdfs:domain :ProvidedService ;
+        rdfs:range xsd:anyURI .
+
+
+###  http://www.synecdoque.com/2025/afo#isSubscribAble
+:isSubscribAble rdf:type owl:DatatypeProperty ;
+                rdfs:domain :ProvidedService ;
+                rdfs:range xsd:boolean .
+
+
+###  http://www.synecdoque.com/2025/afo#usesPort
+:usesPort rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Endpoint ;
+          rdfs:range xsd:nonNegativeInteger .
+
+
+###  http://www.synecdoque.com/2025/afo#usesProtocol
+:usesProtocol rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Endpoint ;
+              rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.synecdoque.com/2025/afo#CertificateAuthority
+:CertificateAuthority rdf:type owl:Class ;
+                      rdfs:subClassOf :System .
+
+
+###  http://www.synecdoque.com/2025/afo#ConsumedService
+:ConsumedService rdf:type owl:Class ;
+                 rdfs:subClassOf [ owl:intersectionOf ( :Service
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty :serviceConsumedBy ;
+                                                          owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                          owl:onClass :UnitAsset
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] ;
+                 owl:disjointWith :ProvidedService .
+
+
+###  http://www.synecdoque.com/2025/afo#Endpoint
+:Endpoint rdf:type owl:Class ;
+          rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                   owl:onProperty :usesPort ;
+                                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onDataRange xsd:integer
+                                                 ]
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty :usesProtocol ;
+                                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onDataRange xsd:string
+                                                 ]
+                                               ) ;
+                            rdf:type owl:Class
+                          ] .
+
+
+###  http://www.synecdoque.com/2025/afo#Host
+:Host rdf:type owl:Class .
+
+
+###  http://www.synecdoque.com/2025/afo#Husk
+:Husk rdf:type owl:Class ;
+      rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                               owl:onProperty :hasServer ;
+                                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :Server
+                                             ]
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty :runsOnHost ;
+                                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass :Host
+                                             ]
+                                           ) ;
+                        rdf:type owl:Class
+                      ] .
+
+
+###  http://www.synecdoque.com/2025/afo#LocalCloud
+:LocalCloud rdf:type owl:Class ;
+            rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :contains ;
+                                                     owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :Orchestrator
+                                                   ]
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :contains ;
+                                                     owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onClass :Serviceregistrar
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] .
+
+
+###  http://www.synecdoque.com/2025/afo#Orchestrator
+:Orchestrator rdf:type owl:Class ;
+              rdfs:subClassOf :System .
+
+
+###  http://www.synecdoque.com/2025/afo#ProvidedService
+:ProvidedService rdf:type owl:Class ;
+                 rdfs:subClassOf [ owl:intersectionOf ( :Service
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty :serviceProvidedBy ;
+                                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                          owl:onClass :UnitAsset
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] .
+
+
+###  http://www.synecdoque.com/2025/afo#ResilientLocalCloud
+:ResilientLocalCloud rdf:type owl:Class ;
+                     rdfs:subClassOf [ owl:intersectionOf ( :LocalCloud
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :contains ;
+                                                              owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                                              owl:onClass :Orchestrator
+                                                            ]
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :contains ;
+                                                              owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                                              owl:onClass :Serviceregistrar
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] .
+
+
+###  http://www.synecdoque.com/2025/afo#SecureLocalCloud
+:SecureLocalCloud rdf:type owl:Class ;
+                  rdfs:subClassOf [ owl:intersectionOf ( :LocalCloud
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty :contains ;
+                                                           owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                           owl:onClass :CertificateAuthority
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] .
+
+
+###  http://www.synecdoque.com/2025/afo#Server
+:Server rdf:type owl:Class .
+
+
+###  http://www.synecdoque.com/2025/afo#Service
+:Service rdf:type owl:Class .
+
+
+###  http://www.synecdoque.com/2025/afo#Serviceregistrar
+:Serviceregistrar rdf:type owl:Class ;
+                  rdfs:subClassOf [ owl:intersectionOf ( :System
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty :hasName ;
+                                                           owl:hasValue "serviceregistrar"
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] .
+
+
+###  http://www.synecdoque.com/2025/afo#System
+:System rdf:type owl:Class ;
+        rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :hasHusk ;
+                                                 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :Husk
+                                               ]
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :hasUnitAsset ;
+                                                 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :UnitAsset
+                                               ]
+                                             ) ;
+                          rdf:type owl:Class
+                        ] .
+
+
+###  http://www.synecdoque.com/2025/afo#UnitAsset
+:UnitAsset rdf:type owl:Class ;
+           rdfs:subClassOf [ rdf:type owl:Restriction ;
+                             owl:onProperty :providesService ;
+                             owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass :Service
+                           ] .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :CertificateAuthority
+                :Orchestrator
+                :Serviceregistrar
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Endpoint
+                :Host
+                :Husk
+                :LocalCloud
+                :Server
+                :Service
+                :System
+                :UnitAsset
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi
