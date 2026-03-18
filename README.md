@@ -18,6 +18,10 @@ Arrowhead-Framework-Ontology/
 |   ├── ontology/
 |   |   └── afo.ttl 
 ```
+## Presented In
+- https://doi.org/10.5281/zenodo.18731224
+
 ## :suspect: Author
 - Oskar Wintercorn <br>
 GitHub: [@oskwin]
+
