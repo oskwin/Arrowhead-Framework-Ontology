@@ -21,10 +21,8 @@ Arrowhead-Framework-Ontology/
 
 ## About
 
-- Developed using the mbaigo implementation of the Arrowhead framework:
-```plaintext
+- Developed using the mbaigo implementation of the Arrowhead framework: <br>
 https://github.com/sdoque/systems
-```
 
 - Knowledge graph generation requires the KGrapher system. 
 
