@@ -31,6 +31,20 @@ Developed using the [mbaigo](https://github.com/sdoque/systems) implementation o
 
 Knowledge graph generation from live Arrowhead deployments requires the KGrapher system.
 
+For replication purposes clone the following mbaigo systems release:
+
+```
+git clone git@github.com:sdoque/systems.git --branch v0.1.0-alpha.3
+```
+
+Minimal startup should include:
+
+- esr
+
+- orchestrator
+
+- kgrapher
+
 ## Publication
 
 Published on Zenodo: [https://doi.org/10.5281/zenodo.18731224](https://doi.org/10.5281/zenodo.18731224)
