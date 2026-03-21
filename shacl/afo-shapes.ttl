@@ -1,0 +1,324 @@
+@prefix afo:  <http://www.synecdoque.com/2025/afo#> .
+@prefix afos: <http://www.synecdoque.com/2025/afo/shapes#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+#################################################################
+#    SHACL Shapes for the Arrowhead Framework Ontology (AFO)
+#    Namespace:  http://www.synecdoque.com/2025/afo#
+#    Shapes IRI: http://www.synecdoque.com/2025/afo/shapes#
+#################################################################
+
+
+# ---------------------------------------------------------------
+#  SystemShape
+#  A System must have at least one Husk and at least one UnitAsset.
+# ---------------------------------------------------------------
+afos:SystemShape
+    a sh:NodeShape ;
+    sh:targetClass afo:System ;
+    rdfs:label "System Shape" ;
+    rdfs:comment "Validates that a System has at least one Husk and at least one UnitAsset." ;
+
+    sh:property [
+        sh:path    afo:hasHusk ;
+        sh:minCount 1 ;
+        sh:class   afo:Husk ;
+        sh:message "A System must have at least one Husk (afo:hasHusk)." ;
+    ] ;
+
+    sh:property [
+        sh:path    afo:hasUnitAsset ;
+        sh:minCount 1 ;
+        sh:class   afo:UnitAsset ;
+        sh:message "A System must have at least one UnitAsset (afo:hasUnitAsset)." ;
+    ] .
+
+
+# ---------------------------------------------------------------
+#  HuskShape
+#  A Husk must have at least one Server and run on at least one Host.
+# ---------------------------------------------------------------
+afos:HuskShape
+    a sh:NodeShape ;
+    sh:targetClass afo:Husk ;
+    rdfs:label "Husk Shape" ;
+    rdfs:comment "Validates that a Husk has at least one Server and runs on at least one Host." ;
+
+    sh:property [
+        sh:path    afo:hasServer ;
+        sh:minCount 1 ;
+        sh:class   afo:Server ;
+        sh:message "A Husk must have at least one Server (afo:hasServer)." ;
+    ] ;
+
+    sh:property [
+        sh:path    afo:runsOnHost ;
+        sh:minCount 1 ;
+        sh:class   afo:Host ;
+        sh:message "A Husk must run on at least one Host (afo:runsOnHost)." ;
+    ] ;
+
+    sh:property [
+        sh:path  afo:communicatesOver ;
+        sh:class afo:Endpoint ;
+        sh:message "Any endpoint a Husk communicates over must be of type afo:Endpoint." ;
+    ] .
+
+
+# ---------------------------------------------------------------
+#  EndpointShape
+#  An Endpoint must declare at least one port and one protocol,
+#  and its port must be a valid TCP/UDP port number (0–65535).
+# ---------------------------------------------------------------
+afos:EndpointShape
+    a sh:NodeShape ;
+    sh:targetClass afo:Endpoint ;
+    rdfs:label "Endpoint Shape" ;
+    rdfs:comment "Validates that an Endpoint has at least one port (0–65535) and at least one protocol string." ;
+
+    sh:property [
+        sh:path           afo:usesPort ;
+        sh:minCount       1 ;
+        sh:datatype       xsd:nonNegativeInteger ;
+        sh:maxInclusive   65535 ;
+        sh:message        "An Endpoint must have at least one port number in the range 0–65535 (afo:usesPort)." ;
+    ] ;
+
+    sh:property [
+        sh:path    afo:usesProtocol ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:minLength 1 ;
+        sh:message  "An Endpoint must have at least one non-empty protocol string (afo:usesProtocol)." ;
+    ] ;
+
+    sh:property [
+        sh:path  afo:onHost ;
+        sh:class afo:Host ;
+        sh:message "The host of an Endpoint must be of type afo:Host (afo:onHost)." ;
+    ] .
+
+
+# ---------------------------------------------------------------
+#  UnitAssetShape
+#  A UnitAsset must provide at least one Service.
+#  Any service it consumes must be a ConsumedService.
+# ---------------------------------------------------------------
+afos:UnitAssetShape
+    a sh:NodeShape ;
+    sh:targetClass afo:UnitAsset ;
+    rdfs:label "Unit Asset Shape" ;
+    rdfs:comment "Validates that a UnitAsset provides at least one Service and that consumed services are ConsumedService instances." ;
+
+    sh:property [
+        sh:path    afo:providesService ;
+        sh:minCount 1 ;
+        sh:class   afo:Service ;
+        sh:message "A UnitAsset must provide at least one Service (afo:providesService)." ;
+    ] ;
+
+    sh:property [
+        sh:path  afo:consumesService ;
+        sh:class afo:ConsumedService ;
+        sh:message "Any service consumed by a UnitAsset must be of type afo:ConsumedService (afo:consumesService)." ;
+    ] .
+
+
+# ---------------------------------------------------------------
+#  LocalCloudShape
+#  A LocalCloud must contain at least one Orchestrator and
+#  at least one ServiceRegistrar.
+# ---------------------------------------------------------------
+afos:LocalCloudShape
+    a sh:NodeShape ;
+    sh:targetClass afo:LocalCloud ;
+    rdfs:label "Local Cloud Shape" ;
+    rdfs:comment "Validates that a LocalCloud contains at least one Orchestrator and one ServiceRegistrar." ;
+
+    sh:property [
+        sh:path                 afo:contains ;
+        sh:qualifiedMinCount    1 ;
+        sh:qualifiedValueShape  [ sh:class afo:Orchestrator ] ;
+        sh:message              "A LocalCloud must contain at least one Orchestrator." ;
+    ] ;
+
+    sh:property [
+        sh:path                 afo:contains ;
+        sh:qualifiedMinCount    1 ;
+        sh:qualifiedValueShape  [ sh:class afo:ServiceRegistrar ] ;
+        sh:message              "A LocalCloud must contain at least one ServiceRegistrar." ;
+    ] ;
+
+    sh:property [
+        sh:path  afo:contains ;
+        sh:class afo:System ;
+        sh:message "Everything contained in a LocalCloud must be of type afo:System." ;
+    ] .
+
+
+# ---------------------------------------------------------------
+#  SecureLocalCloudShape
+#  A SecureLocalCloud must additionally contain at least one
+#  CertificateAuthority.
+# ---------------------------------------------------------------
+afos:SecureLocalCloudShape
+    a sh:NodeShape ;
+    sh:targetClass afo:SecureLocalCloud ;
+    rdfs:label "Secure Local Cloud Shape" ;
+    rdfs:comment "Validates that a SecureLocalCloud contains at least one CertificateAuthority." ;
+
+    sh:property [
+        sh:path                 afo:contains ;
+        sh:qualifiedMinCount    1 ;
+        sh:qualifiedValueShape  [ sh:class afo:CertificateAuthority ] ;
+        sh:message              "A SecureLocalCloud must contain at least one CertificateAuthority." ;
+    ] .
+
+
+# ---------------------------------------------------------------
+#  ResilientLocalCloudShape
+#  A ResilientLocalCloud must contain at least two Orchestrators
+#  and at least two ServiceRegistrars.
+# ---------------------------------------------------------------
+afos:ResilientLocalCloudShape
+    a sh:NodeShape ;
+    sh:targetClass afo:ResilientLocalCloud ;
+    rdfs:label "Resilient Local Cloud Shape" ;
+    rdfs:comment "Validates that a ResilientLocalCloud contains at least two Orchestrators and two ServiceRegistrars." ;
+
+    sh:property [
+        sh:path                 afo:contains ;
+        sh:qualifiedMinCount    2 ;
+        sh:qualifiedValueShape  [ sh:class afo:Orchestrator ] ;
+        sh:message              "A ResilientLocalCloud must contain at least two Orchestrators." ;
+    ] ;
+
+    sh:property [
+        sh:path                 afo:contains ;
+        sh:qualifiedMinCount    2 ;
+        sh:qualifiedValueShape  [ sh:class afo:ServiceRegistrar ] ;
+        sh:message              "A ResilientLocalCloud must contain at least two ServiceRegistrars." ;
+    ] .
+
+
+# ---------------------------------------------------------------
+#  ServiceRegistrarShape
+#  A ServiceRegistrar must have the fixed name 'serviceregistrar'.
+# ---------------------------------------------------------------
+afos:ServiceRegistrarShape
+    a sh:NodeShape ;
+    sh:targetClass afo:ServiceRegistrar ;
+    rdfs:label "Service Registrar Shape" ;
+    rdfs:comment "Validates that a ServiceRegistrar carries the name 'serviceregistrar'." ;
+
+    sh:property [
+        sh:path     afo:hasName ;
+        sh:minCount 1 ;
+        sh:hasValue "serviceregistrar" ;
+        sh:message  "A ServiceRegistrar must have the name value 'serviceregistrar' (afo:hasName)." ;
+    ] .
+
+
+# ---------------------------------------------------------------
+#  ProvidedServiceShape
+#  A ProvidedService must be provided by exactly one UnitAsset
+#  and must carry a service definition string.
+#  Optional data properties are type-checked when present.
+# ---------------------------------------------------------------
+afos:ProvidedServiceShape
+    a sh:NodeShape ;
+    sh:targetClass afo:ProvidedService ;
+    rdfs:label "Provided Service Shape" ;
+    rdfs:comment "Validates cardinality and data types for a ProvidedService." ;
+
+    sh:property [
+        sh:path    afo:serviceProvidedBy ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class   afo:UnitAsset ;
+        sh:message "A ProvidedService must be provided by exactly one UnitAsset (afo:serviceProvidedBy)." ;
+    ] ;
+
+    sh:property [
+        sh:path     afo:hasServiceDefinition ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:minLength 1 ;
+        sh:message  "A ProvidedService must have exactly one non-empty service definition string (afo:hasServiceDefinition)." ;
+    ] ;
+
+    sh:property [
+        sh:path    afo:hasUrl ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:anyURI ;
+        sh:message "The URL of a ProvidedService must be a valid anyURI value (afo:hasUrl)." ;
+    ] ;
+
+    sh:property [
+        sh:path    afo:hasRegistrationPeriod ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:nonNegativeInteger ;
+        sh:message "The registration period must be a non-negative integer (seconds) (afo:hasRegistrationPeriod)." ;
+    ] ;
+
+    sh:property [
+        sh:path    afo:isSubscribable ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:message "isSubscribable must be a boolean value (afo:isSubscribable)." ;
+    ] .
+
+
+# ---------------------------------------------------------------
+#  ConsumedServiceShape
+#  A ConsumedService must be consumed by at least one UnitAsset
+#  and must reference exactly one Service via afo:consumes.
+# ---------------------------------------------------------------
+afos:ConsumedServiceShape
+    a sh:NodeShape ;
+    sh:targetClass afo:ConsumedService ;
+    rdfs:label "Consumed Service Shape" ;
+    rdfs:comment "Validates that a ConsumedService has at least one consumer and references exactly one Service." ;
+
+    sh:property [
+        sh:path    afo:serviceConsumedBy ;
+        sh:minCount 1 ;
+        sh:class   afo:UnitAsset ;
+        sh:message "A ConsumedService must be consumed by at least one UnitAsset (afo:serviceConsumedBy)." ;
+    ] ;
+
+    sh:property [
+        sh:path    afo:consumes ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class   afo:Service ;
+        sh:message "A ConsumedService must reference exactly one Service (afo:consumes)." ;
+    ] .
+
+
+# ---------------------------------------------------------------
+#  HostShape
+#  Type-checks optional data properties on Host.
+# ---------------------------------------------------------------
+afos:HostShape
+    a sh:NodeShape ;
+    sh:targetClass afo:Host ;
+    rdfs:label "Host Shape" ;
+    rdfs:comment "Validates data property types on a Host." ;
+
+    sh:property [
+        sh:path    afo:hasIPAddress ;
+        sh:datatype xsd:string ;
+        sh:minLength 1 ;
+        sh:message "An IP address must be a non-empty string (afo:hasIPAddress)." ;
+    ] ;
+
+    sh:property [
+        sh:path    afo:hasName ;
+        sh:datatype xsd:string ;
+        sh:message "The name of a Host must be a string (afo:hasName)." ;
+    ] .
