@@ -23,6 +23,8 @@ It aims to enable **semantic interoperability** in **industrial automation and c
 Arrowhead-Framework-Ontology/
 └── ontology/
     └── afo.ttl
+└── shacl/
+    └── afo-shapes.ttl
 ```
 
 ## About
