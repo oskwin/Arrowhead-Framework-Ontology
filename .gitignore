@@ -1,0 +1,13 @@
+alignment/cloudgraph.ttl
+alignment/labequipment.ttl
+alignment/dexpi.ttl
+alignment/ido-ext.ttl
+alignment/lifecycle.ttl
+alignment/LIS-14.ttl
+alignment/STEPAP4K_V1.ttl
+alignment/step-lis.ttl
+
+*.properties
+*.xml
+
+.claude/*
